@@ -5,6 +5,7 @@ import com.bnta.spring_cinema.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,9 @@ public class MovieService {
     }
 
     public Movie getMovieById(int id) {
-        return movieRepository.findById(id).get();
+        Optional<Movie> movie = movieRepository.findById(id);
+        if (movie.isPresent()) return movie.get();
+        else return null;
     }
 
     public void updateMovie(int id, Movie newMovie) {
@@ -33,12 +36,12 @@ public class MovieService {
             existingMovie.setTitle(newMovie.getTitle());
             existingMovie.setRating(newMovie.getRating());
             existingMovie.setDuration(newMovie.getDuration());
-            movieRepository.save(newMovie);
+            movieRepository.save(existingMovie);
         }
     }
 
     public void deleteMovie(int id) {
-        movieRepository.delete(movieRepository.findById(id).get());
+        if (movieRepository.findById(id).isPresent()) movieRepository.delete(movieRepository.findById(id).get());
     }
 
 

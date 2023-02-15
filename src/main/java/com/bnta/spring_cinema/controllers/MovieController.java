@@ -31,7 +31,8 @@ public class MovieController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Movie> getMovieById(@PathVariable int id) {
         Movie movie = movieService.getMovieById(id);
-        return new ResponseEntity<>(movie,HttpStatus.OK);
+        if (movie == null) return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        else return new ResponseEntity<>(movie,HttpStatus.OK);
     }
 
 
